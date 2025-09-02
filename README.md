@@ -1,5 +1,7 @@
 [![CI/CD - Spring Boot Docker to Render](https://github.com/Shaanworkspace/AyurSutra/actions/workflows/render-docker.yml/badge.svg)](https://github.com/Shaanworkspace/AyurSutra/actions/workflows/render-docker.yml)
 
+Available at your primary URL - https://ayusutra-backend.onrender.com
+
 # Team of AyurSutra
 
 We welcome contributions! Follow these steps to contribute effectively.
@@ -19,10 +21,6 @@ Run the following commands in your terminal (replace `<your-username>` with your
 # Clone your fork
 git clone git@github.com:<your-username>/AyurSutra.git
 cd AyurSutra
-
-# Add the original repository as upstream
-git remote add upstream git@github.com:Shaanworkspace/AyurSutra.git
-git fetch upstream
 ```
 ### Step 2: Create a Branch, Make Changes, and Push
 ```bash
