@@ -1,0 +1,1 @@
+[![CI/CD - Spring Boot Docker to Render](https://github.com/Shaanworkspace/AyurSutra/actions/workflows/render-docker.yml/badge.svg)](https://github.com/Shaanworkspace/AyurSutra/actions/workflows/render-docker.yml)
