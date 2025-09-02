@@ -1,0 +1,21 @@
+name: CI/CD - Spring Boot Docker to Render
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'AyuSutra-Backend/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy Dockerized Spring Boot to Render
+        uses: johnbeynon/render-deploy-action@v1
+        with:
+          api-key: ${{ secrets.RENDER_API_KEY }}
+          service-id: ${{ secrets.RENDER_SERVICE_ID }}
