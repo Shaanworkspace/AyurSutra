@@ -167,86 +167,128 @@ const AyurSutraWebsite = () => {
           </motion.div>
 
           {/* Dashboard Preview */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            className="relative max-w-6xl mx-auto"
-          >
-            <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 shadow-2xl">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h3 className="text-white text-2xl font-bold">AyurSutra Dashboard</h3>
-                  <p className="text-green-100">Patient Management System</p>
+        {/* 3D Dashboard Preview */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, y: 50 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 2 }}
+          className="relative max-w-5xl mx-auto"
+        >
+          {/* Main Dashboard Container */}
+          <div className="relative">
+            {/* 3D Dashboard Mockup */}
+            <motion.div
+              initial={{ rotateX: 45, rotateY: -15 }}
+              animate={{ rotateX: 15, rotateY: -5 }}
+              transition={{ duration: 2, delay: 2.2 }}
+              className="relative"
+              style={{ 
+                perspective: '1000px',
+                transformStyle: 'preserve-3d'
+              }}
+            >
+              <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
+                {/* Dashboard Header */}
+                <div className="bg-gradient-to-r from-emerald-500 to-teal-600 p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-white">AyurSutra Dashboard</h3>
+                      <p className="text-emerald-100 text-sm">Patient Management System</p>
+                    </div>
+                    <div className="flex space-x-2">
+                      <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                      <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                      <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex space-x-2">
-                  <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                  <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                </div>
-              </div>
-              
-              <div className="bg-white rounded-xl p-6 shadow-xl">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                  <motion.div 
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.8 }}
-                    className="bg-white rounded-lg p-4 shadow-md border border-gray-100"
-                  >
-                    <h4 className="font-semibold text-gray-800 mb-2">Next Appointment</h4>
-                    <p className="text-gray-600 text-sm mb-1">Priya Sharma</p>
-                    <p className="text-green-600 font-medium">Abhyanga - 2:30 PM</p>
-                  </motion.div>
+
+                {/* Dashboard Content */}
+                <div className="p-6 bg-gray-50">
+                  <div className="grid grid-cols-4 gap-4 mb-6">
+                    <div className="bg-white p-4 rounded-lg shadow-sm">
+                      <div className="text-2xl font-bold text-emerald-600">247</div>
+                      <div className="text-sm text-gray-600">Active Patients</div>
+                    </div>
+                    <div className="bg-white p-4 rounded-lg shadow-sm">
+                      <div className="text-2xl font-bold text-teal-600">18</div>
+                      <div className="text-sm text-gray-600">Today's Sessions</div>
+                    </div>
+                    <div className="bg-white p-4 rounded-lg shadow-sm">
+                      <div className="text-2xl font-bold text-cyan-600">94%</div>
+                      <div className="text-sm text-gray-600">Success Rate</div>
+                    </div>
+                    <div className="bg-white p-4 rounded-lg shadow-sm">
+                      <div className="text-2xl font-bold text-blue-600">45m</div>
+                      <div className="text-sm text-gray-600">Avg. Session</div>
+                    </div>
+                  </div>
                   
-                  {dashboardStats.map((stat, index) => (
-                    <motion.div
-                      key={stat.label}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.8 + stat.delay }}
-                      className="text-center"
-                    >
-                      <div className="text-3xl font-bold text-green-600 mb-1">{stat.value}</div>
-                      <div className="text-gray-600 text-sm">{stat.label}</div>
-                      {stat.label === "Treatment Progress" && (
-                        <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: "75%" }}
-                            transition={{ delay: 1.2, duration: 1 }}
-                            className="bg-green-500 h-2 rounded-full"
-                          />
-                        </div>
-                      )}
-                    </motion.div>
-                  ))}
-                </div>
-                
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-4">
-                    <h4 className="font-semibold text-gray-800">Real-time Sync</h4>
-                    <span className="text-sm text-gray-600">All devices connected</span>
-                  </div>
-                  <div className="flex space-x-2">
-                    {[...Array(8)].map((_, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ height: 20 }}
-                        animate={{ height: [20, 40, 60, 40, 20] }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          delay: i * 0.1,
-                          ease: "easeInOut"
-                        }}
-                        className="bg-green-500 rounded flex-1"
-                      />
-                    ))}
+                  {/* Chart Area */}
+                  <div className="bg-white rounded-lg p-4 h-32">
+                    <div className="flex items-end space-x-2 h-full">
+                      {[65, 45, 80, 55, 70, 60, 85, 75].map((height, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ height: 0 }}
+                          animate={{ height: `${height}%` }}
+                          transition={{ duration: 1, delay: 2.5 + i * 0.1 }}
+                          className="bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-sm flex-1"
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+
+            {/* Floating Elements */}
+            <motion.div
+              initial={{ opacity: 0, x: -50, y: 50 }}
+              animate={{ opacity: 1, x: 0, y: 0 }}
+              transition={{ duration: 1, delay: 2.8 }}
+              className="absolute -left-8 top-1/4 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-xl border border-gray-200"
+            >
+              <div className="text-left">
+                <h4 className="font-semibold text-gray-800 mb-2">Next Appointment</h4>
+                <p className="text-sm text-gray-600">Priya Sharma</p>
+                <p className="text-sm text-emerald-600 font-medium">Abhyanga - 2:30 PM</p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 50, y: -30 }}
+              animate={{ opacity: 1, x: 0, y: 0 }}
+              transition={{ duration: 1, delay: 3 }}
+              className="absolute -right-6 top-1/3 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-xl border border-gray-200"
+            >
+              <div className="text-left">
+                <h4 className="font-semibold text-gray-800 mb-2">Treatment Progress</h4>
+                <div className="w-24 bg-gray-200 rounded-full h-2 mb-2">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: "75%" }}
+                    transition={{ duration: 1, delay: 3.2 }}
+                    className="bg-emerald-500 h-2 rounded-full"
+                  />
+                </div>
+                <p className="text-sm text-gray-600">75% Complete</p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 3.2 }}
+              className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-white/95 backdrop-blur-sm rounded-xl p-3 shadow-xl border border-gray-200"
+            >
+              <div className="text-center">
+                <div className="text-lg font-bold text-teal-600">Real-time Sync</div>
+                <div className="text-xs text-gray-600">All devices connected</div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
         </div>
       </section>
 
