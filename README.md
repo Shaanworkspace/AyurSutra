@@ -19,10 +19,6 @@ Run the following commands in your terminal (replace `<your-username>` with your
 # Clone your fork
 git clone git@github.com:<your-username>/AyurSutra.git
 cd AyurSutra
-
-# Add the original repository as upstream
-git remote add upstream git@github.com:Shaanworkspace/AyurSutra.git
-git fetch upstream
 ```
 ### Step 2: Create a Branch, Make Changes, and Push
 ```bash
