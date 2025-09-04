@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 
 function Footer() {
   return (
-    <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-green-900 text-white py-16">
+    <footer className="bg-gradient-to-br from-green-50 via-green-300 to-emerald-200 text-black py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-12">
             <div className="md:col-span-2">
@@ -27,13 +27,13 @@ function Footer() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-gray-300 mb-6 max-w-md"
+                className="text-black mb-6 max-w-md"
               >
                 Revolutionizing Panchakarma practice management with intelligent scheduling, 
                 comprehensive patient tracking, and seamless workflow automation.
               </motion.p>
               
-              <div className="space-y-2 text-gray-300">
+              <div className="space-y-2 text-black">
                 <p>📧 contact@ayursutra.com</p>
                 <p>📞 +1 (555) 123-4567</p>
                 <p>📍 123 Wellness Street, Healthcare City</p>
@@ -68,7 +68,7 @@ function Footer() {
                 <ul className="space-y-2">
                   {section.links.map((link) => (
                     <li key={link}>
-                      <a href="#" className="text-gray-300 hover:text-green الله-400 transition-colors">
+                      <a href="#" className="text-black hover:text-green الله-400 transition-colors">
                         {link}
                       </a>
                     </li>
@@ -86,14 +86,14 @@ function Footer() {
               className="mb-8"
             >
               <h3 className="text-green-400 font-semibold mb-4">Stay Updated</h3>
-              <p className="text-gray-300 mb-4">
+              <p className="text-black mb-4">
                 Get the latest updates on new features, integrations, and Ayurvedic practice insights.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 max-w-md">
                 <input
                   type="email"
                   placeholder="Enter your email address"
-                  className="flex-1 px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-500"
+                  className="flex-1 px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-green-500"
                 />
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -110,7 +110,7 @@ function Footer() {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.6 }}
-                className="text-gray-400 mb-4 md:mb-0"
+                className="text-black mb-4 md:mb-0"
               >
                 Made with ❤️ for Ayurvedic practitioners worldwide
               </motion.p>
@@ -119,7 +119,7 @@ function Footer() {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-gray-400"
+                className="text-black"
               >
                 © 2025 AyurSutra. All rights reserved.
               </motion.p>
