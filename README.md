@@ -1,5 +1,7 @@
 [![CI/CD - Spring Boot Docker to Render](https://github.com/Shaanworkspace/AyurSutra/actions/workflows/render-docker.yml/badge.svg)](https://github.com/Shaanworkspace/AyurSutra/actions/workflows/render-docker.yml)
 
+Available at your primary URL - https://ayusutra-backend.onrender.com
+
 # Team of AyurSutra
 
 We welcome contributions! Follow these steps to contribute effectively.

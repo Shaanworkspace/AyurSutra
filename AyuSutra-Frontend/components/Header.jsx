@@ -1,33 +1,29 @@
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Leaf } from 'lucide-react';
 
 
 const Header = ({ isMenuOpen, setIsMenuOpen }) => {
-  return (
-    <motion.header
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="fixed top-2 left-4 right-4 z-50"
-    >
-      <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-2xl">
-        <nav className="px-4 py-2">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="flex items-center space-x-2"
-            >
-              <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-lg flex items-center justify-center">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                  className="w-4 h-4 border-2 border-white rounded-full border-t-transparent"
-                />
-              </div>
-              <span className="text-lg font-bold text-gray-800">AyurSutra</span>
-            </motion.div>
+    return (
+        <motion.header
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="fixed top-2 left-4 right-4 z-50"
+        >
+            <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-2xl">
+                <nav className="px-4 py-2">
+                    <div className="flex items-center justify-between">
+                        
+                            {/* Ayurvedic Leaf Icon */}
+                            {/* Logo */}
+           <div className="flex items-center space-x-2">
+            <Leaf className="w-8 h-8 text-emerald-600" />
+            <span className="text-lg font-bold text-emerald-700">
+              AyurSutra
+            </span>
+          </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
@@ -59,15 +55,9 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
               </motion.button>
             </div>
 
-            {/* Mobile Menu Button */}
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </motion.button>
-          </div>
+
+                           
+
 
           {/* Mobile Menu */}
           {isMenuOpen && (
@@ -104,6 +94,8 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
       </div>
     </motion.header>
   );
+
+                    
 };
 
 export default Header;
