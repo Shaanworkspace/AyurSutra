@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
 
 const Header = ({ isMenuOpen, setIsMenuOpen }) => {
   return (
@@ -29,16 +31,25 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
-              {['Features', 'Dashboard', 'About'].map((item) => (
-                <motion.a
-                  key={item}
-                  whileHover={{ y: -2 }}
-                  href={`#${item.toLowerCase()}`}
-                  className="text-gray-700 hover:text-emerald-600 transition-colors"
-                >
-                  {item}
-                </motion.a>
-              ))}
+             {['Features', 'Dashboard', 'About'].map((item) =>
+                item === 'Dashboard' ? (
+                  <Link
+                    key={item}
+                    to="/patient-dashboard"
+                    className="text-gray-700 hover:text-emerald-600 transition-colors"
+                  >
+                    {item}
+                  </Link>
+                ) : (
+                  <a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    className="text-gray-700 hover:text-emerald-600 transition-colors"
+                  >
+                    {item}
+                  </a>
+                )
+              )}
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -67,7 +78,16 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
               className="md:hidden mt-4 pt-4 border-t border-white/20"
             >
               <div className="flex flex-col space-y-4">
-                {['Features', 'Dashboard', 'About'].map((item) => (
+                {['Features', 'Dashboard', 'About'].map((item) =>
+                  item === 'Dashboard' ? (
+                  <Link
+                    key={item}
+                    to="/patient-dashboard"
+                    className="text-gray-700 hover:text-emerald-600 transition-colors"
+                  >
+                    {item}
+                  </Link>
+                ) : (
                   <a
                     key={item}
                     href={`#${item.toLowerCase()}`}
@@ -75,10 +95,8 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
                   >
                     {item}
                   </a>
-                ))}
-                <button className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-2 rounded-xl hover:shadow-lg transition-shadow text-left">
-                  Get Started
-                </button>
+                )
+              )}
               </div>
             </motion.div>
           )}
