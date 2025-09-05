@@ -4,7 +4,6 @@ import Header from "../../layout/Header";
 import Footer from "../../layout/Footer";
 import { useNavigate } from "react-router-dom";
 
-// ✅ Using plain Tailwind cards (no shadcn dependency)
 const doctors = [
   {
     id: 1,

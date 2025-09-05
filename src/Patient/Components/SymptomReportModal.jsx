@@ -43,11 +43,11 @@ const SymptomReportModal = ({ isOpen, setIsOpen, patientData }) => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-sm text-gray-600 mb-1">Name</label>
-                  <input name="name" value={form.name} onChange={handleChange} className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2" />
+                  <input name="name" value={form.name} onChange={handleChange} className="w-full bg-gray-100 border border-gray-300 rounded-lg px-3 py-2" disabled />
                 </div>
                 <div>
                   <label className="block text-sm text-gray-600 mb-1">Email</label>
-                  <input name="email" type="email" value={form.email} onChange={handleChange} className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2" />
+                  <input name="email" type="email" value={form.email} onChange={handleChange} className="w-full bg-gray-100 border border-gray-300 rounded-lg px-3 py-2" disabled/>
                 </div>
               </div>
               <div>

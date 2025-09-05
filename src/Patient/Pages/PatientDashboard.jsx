@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-// import Header from '../Components/Header';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from '../Components/Sidebar';
 import InlineDropdown from '../Components/InlineDropdown';
 import AajKaNirdesh from '../Components/AajKaNirdesh';
@@ -10,6 +10,7 @@ import SymptomReportModal from '../Components/SymptomReportModal';
 import { NormalizeName } from '../Components/NormalizeName';
 import FeedBack from '../Components/FeedBack';
 import Header from '../../layout/Header';
+import ChooseDoctorPage from '@/components/Pages/ChooseDocPage';
 
 const PatientData = {
   fullName: 'PriyaSharma',
@@ -36,15 +37,14 @@ const PatientData = {
   lastSessionFeedBackPending: true
 };
 
-export { PatientData };
 
 const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.08 } } };
 const itemVariants = { hidden: { y: 18, opacity: 0 }, visible: { y: 0, opacity: 1 } };
 
 const PatientDashboard = () => {
   const [isFormOpen, setIsFormOpen] = React.useState(false);
+  const navigate = useNavigate();
 
-  // Add error handling for patient data
   if (!PatientData || !PatientData.fullName) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50 p-8">
@@ -74,9 +74,15 @@ const PatientDashboard = () => {
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setIsFormOpen(true)}
-                  className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-4 py-2 rounded-lg shadow hover:shadow-md"
+                  className="bg-teal-700 text-white px-4 py-2 rounded-lg shadow hover:shadow-md cursor-pointer"
                 >
                   Report Symptoms
+                </button>
+                <button
+                  onClick={() => navigate('/choose-doctor')}
+                  className="bg-blue-800 text-white px-4 py-2 rounded-lg shadow hover:shadow-md cursor-pointer"
+                >
+                  Consult Doctor
                 </button>
                 <InlineDropdown />
               </div>
