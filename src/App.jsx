@@ -3,6 +3,7 @@ import LandingPage from "../pages/AyurSutraWebsite";
 import LoginPage from "./components/Pages/LoginPage";
 import PatientDashboard from "./components/Pages/PatientDashboard";
 import RegisterPage from "./components/Pages/RegisterPage";
+import AboutPage from "./components/Pages/AboutPage"; 
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/patient-dashboard" element={<PatientDashboard />} />
+      <Route path="/about" element={<AboutPage/>} />
       
     </Routes>
   );

@@ -32,6 +32,14 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
                   >
                     {item}
                   </Link>
+                ) : item === "About" ? (
+                  <Link
+                    key={item}
+                    to="/about"
+                    className="text-gray-700 hover:text-emerald-600 transition-colors"
+                  >
+                    {item}
+                  </Link>
                 ) : (
                   <a
                     key={item}
@@ -42,6 +50,7 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
                   </a>
                 )
               )}
+
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
