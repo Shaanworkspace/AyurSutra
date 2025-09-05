@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { User, Stethoscope, Heart, UserPlus } from 'lucide-react';
 
 const AuthButtons = () => {
