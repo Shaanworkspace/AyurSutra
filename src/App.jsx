@@ -3,6 +3,7 @@ import LandingPage from "../pages/AyurSutraWebsite";
 import LoginPage from "./components/Pages/LoginPage";
 import RegisterPage from "./components/Pages/RegisterPage";
 import AboutPage from "./components/Pages/AboutPage"; 
+import PatientDashboard from "./Patient/Pages/PatientDashboard";
 
 function App() {
   return (
