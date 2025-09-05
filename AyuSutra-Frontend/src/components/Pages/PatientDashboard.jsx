@@ -5,7 +5,7 @@ import {
   LogOut, Clock, ChevronRight, Sun, Moon, Bell, CheckCircle2, X
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Header from '../Header';
+import Header from '../../layout/Header';
 
 // Inline notifications dropdown (self-contained)
 function InlineDropdown() {
