@@ -1,9 +1,8 @@
-import { Routes, Route } from "react-router-dom";
+import {  Routes, Route } from "react-router-dom";
 import LandingPage from "../pages/AyurSutraWebsite";
 import LoginPage from "./components/Pages/LoginPage";
 import RegisterPage from "./components/Pages/RegisterPage";
-import AboutPage from "./components/Pages/AboutPage";
-import PatientDashboard from "./Patient/Pages/PatientDashboard";
+import AboutPage from "./components/Pages/AboutPage"; 
 
 function App() {
   return (
@@ -13,6 +12,7 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/patient-dashboard" element={<PatientDashboard />} />
       <Route path="/about" element={<AboutPage/>} />
+      
     </Routes>
   );
 }
