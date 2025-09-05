@@ -1,9 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import LandingPage from "../pages/AyurSutraWebsite";
-import LoginPage from "../components/Pages/LoginPage";
-import RegisterPage from "../components/Pages/RegisterPage";
-// import AboutPage from "../pages/AboutPage"; // example
-import PatientDashboard from "../components/Pages/PatientDashboard";
+import LoginPage from "./components/Pages/LoginPage";
+import PatientDashboard from "./components/Pages/PatientDashboard";
+import RegisterPage from "./components/Pages/RegisterPage";
 
 function App() {
   return (

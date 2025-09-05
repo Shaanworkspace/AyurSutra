@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Stethoscope, Heart, LogIn } from 'lucide-react';
-import Header from '../Header';
+import Header from '../../layout/Header';
 
 const LoginPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

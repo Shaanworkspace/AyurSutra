@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { User, Stethoscope, Heart, UserPlus } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
-import Header from '../Header';
+import Header from '../../layout/Header';
 
 const RegisterPage = () => {
   const location = useLocation();
