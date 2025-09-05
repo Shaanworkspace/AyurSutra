@@ -12,7 +12,7 @@ const InlineDropdown = () => {
     { id: 3, title: 'Feedback pending for Day 3', meta: 'Yesterday - 6:15 PM', unread: false },
   ]);
 
-  const unreadCount = React.useMemo(() => 
+  const unreadCount = React.useMemo(() =>
     items.filter(i => i.unread).length,
     [items]
   );
@@ -29,18 +29,18 @@ const InlineDropdown = () => {
         setOpen(false);
       }
     }
-    
-    function onKey(e) { 
+
+    function onKey(e) {
       if (e.key === 'Escape') setOpen(false);
-      
+
       if (!open || !menuRef.current) return;
-      
+
       const menuItems = menuRef.current.querySelectorAll('button[role="menuitem"]');
       if (!menuItems.length) return;
-      
+
       const currentIndex = Array.from(menuItems).indexOf(document.activeElement);
       let nextIndex;
-      
+
       switch (e.key) {
         case 'ArrowDown':
           e.preventDefault();
@@ -54,7 +54,7 @@ const InlineDropdown = () => {
           break;
       }
     }
-    
+
     document.addEventListener('mousedown', onDocClick);
     document.addEventListener('keydown', onKey);
     return () => {
@@ -63,12 +63,12 @@ const InlineDropdown = () => {
     };
   }, [open]);
 
-  const markAllRead = React.useCallback(() => 
+  const markAllRead = React.useCallback(() =>
     setItems(prev => prev.map(i => ({ ...i, unread: false }))),
     []
   );
-  
-  const clearAll = React.useCallback(() => 
+
+  const clearAll = React.useCallback(() =>
     setItems([]),
     []
   );
@@ -106,7 +106,7 @@ const InlineDropdown = () => {
           />
         </svg>
       </button>
-      
+
       {/* Mobile button */}
       <button
         ref={btnRef}
