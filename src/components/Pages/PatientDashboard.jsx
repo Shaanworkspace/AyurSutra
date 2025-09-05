@@ -6,9 +6,14 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '../../layout/Header';
+import { useNavigate } from "react-router-dom";
+
+
+
 
 // Inline notifications dropdown (self-contained)
 function InlineDropdown() {
+  
   const [open, setOpen] = React.useState(false);
   const menuRef = React.useRef(null);
   const btnRef = React.useRef(null);
@@ -23,6 +28,8 @@ function InlineDropdown() {
   const unreadCount = items.filter(i => i.unread).length;
 
   React.useEffect(() => {
+      
+
     function onDocClick(e) {
       if (!open) return;
       if (
@@ -260,6 +267,8 @@ const sheet = {
 };
 
 const PatientDashboard = () => {
+  const navigate = useNavigate();
+
   const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.08 } } };
   const itemVariants = { hidden: { y: 18, opacity: 0 }, visible: { y: 0, opacity: 1 } };
 
@@ -376,6 +385,7 @@ const PatientDashboard = () => {
         </aside>
 
         {/* Main */}
+
         <main className="flex-1 p-8">
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="max-w-[1400px] mx-auto">
             {/* Greeting + Actions */}
@@ -392,6 +402,13 @@ const PatientDashboard = () => {
                 >
                   Report Symptoms
                 </button>
+                <button
+                  onClick={() => navigate("/choose-doctor")}  
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg shadow hover:shadow-md"
+                >
+                  Consult Doctor
+                </button>
+
 
                 {/* Notifications dropdown (inline) */}
                 <InlineDropdown />
