@@ -6,6 +6,7 @@ import AboutPage from "./components/Pages/AboutPage";
 import PatientDashboard from "./Patient/Pages/PatientDashboard";
 import ChooseDoctorPage from "./components/Pages/ChooseDocPage";
 
+
 function App() {
   return (
     <Routes>
@@ -15,6 +16,7 @@ function App() {
       <Route path="/patient-dashboard" element={<PatientDashboard />} />
       <Route path="/about" element={<AboutPage/>} />
       <Route path="/choose-doctor" element={<ChooseDoctorPage />} />
+
     </Routes>
   );
 }

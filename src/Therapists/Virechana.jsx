@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { HeartPulse } from "lucide-react"; // ✅ therapy icon (you can change)
-import Header from "../../layout/Header";
-import Footer from "../../layout/Footer";
+import Header from "../layout/Header";
+import Footer from "../layout/Footer";
 
 const therapists = [
   {
