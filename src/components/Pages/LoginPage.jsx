@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Stethoscope, Heart, LogIn } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../layout/Header';
+import { login } from "../../api/login";
 
 const LoginPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState('User');
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
-  const [doctorEmail, setDoctorEmail] = useState('');
-  const [doctorPassword, setDoctorPassword] = useState('');
-  const [practitionerEmail, setPractitionerEmail] = useState('');
-  const [practitionerPassword, setPractitionerPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState("");
+  
+  const navigate = useNavigate();
 
   const profiles = [
     { name: 'User', icon: User },
@@ -19,18 +22,42 @@ const LoginPage = () => {
     { name: 'Practitioner', icon: Heart },
   ];
 
-  const handleLogin = (e, profile) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const email = profile === 'User' ? userEmail : profile === 'Doctor' ? doctorEmail : practitionerEmail;
-    console.log(`Logging in as ${profile} with email: ${email}`);
+    setError("");
+    console.log(`Logging in as ${selectedProfile} with email: ${email}`);
+
+    try {
+      const res = await login({
+        profile: selectedProfile.toLowerCase(),
+        firstName,
+        lastName,
+        email,
+        password
+      });
+
+      console.log("Login successful:", res);
+
+      // Store auth token
+      if(res.token) localStorage.setItem("authToken", res.token);
+      
+      // Store user name data for dashboard
+      localStorage.setItem('userFirstName', firstName);
+      localStorage.setItem('userLastName', lastName);
+
+      // Navigate to patient dashboard
+      navigate('/patient-dashboard');
+
+    } catch (err) {
+      console.error("Login failed:", err);
+      setError("Invalid credentials");
+    }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50">
-      {/* Header */}
       <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
 
-      {/* Login Section */}
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -48,12 +75,7 @@ const LoginPage = () => {
           </motion.h1>
 
           {/* Profile Tabs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex justify-center mb-8"
-          >
+          <div className="flex justify-center mb-8">
             <div className="flex space-x-2 bg-gray-100 rounded-xl p-1">
               {profiles.map((profile) => (
                 <motion.button
@@ -72,106 +94,87 @@ const LoginPage = () => {
                 </motion.button>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          {/* Login Forms */}
-          {profiles.map((profile) => (
-            <motion.div
-              key={profile.name}
-              initial={{ opacity: 0, height: 0 }}
-              animate={{
-                opacity: selectedProfile === profile.name ? 1 : 0,
-                height: selectedProfile === profile.name ? 'auto' : 0,
-                display: selectedProfile === profile.name ? 'block' : 'none',
-              }}
-              transition={{ duration: 0.4 }}
-              className="overflow-hidden"
-            >
-              <form onSubmit={(e) => handleLogin(e, profile.name)}>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  className="mb-6"
-                >
-                  <label className="block text-gray-600 font-medium mb-2">
-                    {profile.name} Email
-                  </label>
-                  <input
-                    type="email"
-                    value={
-                      profile.name === 'User'
-                        ? userEmail
-                        : profile.name === 'Doctor'
-                        ? doctorEmail
-                        : practitionerEmail
-                    }
-                    onChange={(e) => {
-                      if (profile.name === 'User') setUserEmail(e.target.value);
-                      else if (profile.name === 'Doctor') setDoctorEmail(e.target.value);
-                      else setPractitionerEmail(e.target.value);
-                    }}
-                    placeholder={`Enter ${profile.name.toLowerCase()} email`}
-                    className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:border-green-500 transition-colors"
-                    required
-                  />
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.5 }}
-                  className="mb-8"
-                >
-                  <label className="block text-gray-600 font-medium mb-2">
-                    {profile.name} Password
-                  </label>
-                  <input
-                    type="password"
-                    value={
-                      profile.name === 'User'
-                        ? userPassword
-                        : profile.name === 'Doctor'
-                        ? doctorPassword
-                        : practitionerPassword
-                    }
-                    onChange={(e) => {
-                      if (profile.name === 'User') setUserPassword(e.target.value);
-                      else if (profile.name === 'Doctor') setDoctorPassword(e.target.value);
-                      else setPractitionerPassword(e.target.value);
-                    }}
-                    placeholder={`Enter ${profile.name.toLowerCase()} password`}
-                    className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:border-green-500 transition-colors"
-                    required
-                  />
-                </motion.div>
-
-                <motion.button
-                  type="submit"
-                  whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(34, 197, 94, 0.3)' }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-2xl transition-all flex items-center justify-center gap-2"
-                >
-                  <LogIn className="w-5 h-5" />
-                  Login as {profile.name}
-                </motion.button>
-              </form>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                className="mt-4 text-center"
-              >
-                <a
-                  href="#forgot-password"
-                  className="text-green-600 hover:text-emerald-700 transition-colors text-sm"
-                >
-                  Forgot Password?
-                </a>
-              </motion.div>
+          {/* Login Form */}
+          <form onSubmit={handleLogin}>
+            <motion.div className="mb-6">
+              <label className="block text-gray-600 font-medium mb-2">
+                First Name
+              </label>
+              <input
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="Enter first name"
+                className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:border-green-500 transition-colors"
+                required
+              />
             </motion.div>
-          ))}
+
+            <motion.div className="mb-6">
+              <label className="block text-gray-600 font-medium mb-2">
+                Last Name
+              </label>
+              <input
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Enter last name"
+                className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:border-green-500 transition-colors"
+                required
+              />
+            </motion.div>
+
+            <motion.div className="mb-6">
+              <label className="block text-gray-600 font-medium mb-2">
+                {selectedProfile} Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={`Enter ${selectedProfile.toLowerCase()} email`}
+                className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:border-green-500 transition-colors"
+                required
+              />
+            </motion.div>
+
+            <motion.div className="mb-8">
+              <label className="block text-gray-600 font-medium mb-2">
+                {selectedProfile} Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={`Enter ${selectedProfile.toLowerCase()} password`}
+                className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:border-green-500 transition-colors"
+                required
+              />
+            </motion.div>
+
+            {error && <p className="text-red-500 mb-4">{error}</p>}
+
+            <motion.button
+              type="submit"
+              whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(34, 197, 94, 0.3)' }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-2xl transition-all flex items-center justify-center gap-2"
+            >
+              <LogIn className="w-5 h-5" />
+              Login as {selectedProfile}
+            </motion.button>
+          </form>
+
+          <motion.div className="mt-4 text-center">
+            <a
+              href="#forgot-password"
+              className="text-green-600 hover:text-emerald-700 transition-colors text-sm"
+            >
+              Forgot Password?
+            </a>
+          </motion.div>
         </motion.div>
       </section>
     </div>
