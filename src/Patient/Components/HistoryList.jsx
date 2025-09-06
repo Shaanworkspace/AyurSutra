@@ -7,7 +7,9 @@ export default function HistoryList({ items, onView }) {
       <div className="grid place-items-center rounded-2xl border border-dashed border-gray-300 bg-white py-10 sm:py-14 px-4">
         <div className="text-center max-w-md">
           <p className="text-base sm:text-lg font-semibold text-gray-800">No history yet</p>
-          <p className="mt-1 text-sm text-gray-500">Completed or scheduled therapies will appear here once available.</p>
+          <p className="mt-1 text-sm text-gray-500">
+            Completed or scheduled therapies will appear here once available.
+          </p>
         </div>
       </div>
     );
@@ -21,4 +23,3 @@ export default function HistoryList({ items, onView }) {
     </div>
   );
 }
-

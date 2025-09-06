@@ -1,14 +1,5 @@
 import React from 'react';
-
-const chipClasses = {
-  Completed: 'bg-emerald-100 text-emerald-700',
-  Pending: 'bg-amber-100 text-amber-700',
-  Cancelled: 'bg-rose-100 text-rose-700',
-  Default: 'bg-gray-100 text-gray-700',
-};
-
-const fmt = new Intl.DateTimeFormat('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-const format = (d) => (d ? fmt.format(new Date(d)) : '—');
+import { chipClasses } from './Chip';
 
 export default function HistoryDetailModal({ open, onClose, item }) {
   if (!open || !item) return null;
@@ -23,7 +14,7 @@ export default function HistoryDetailModal({ open, onClose, item }) {
           </svg>
         </button>
 
-
+       
         <h3 id="history-detail-title" className="text-lg sm:text-xl font-bold text-gray-900 mb-1">
           {item.therapyName || 'Therapy'} Details
         </h3>
@@ -37,18 +28,18 @@ export default function HistoryDetailModal({ open, onClose, item }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1">
             <p className="text-xs text-gray-500">Start date</p>
-            <p className="text-sm font-medium text-gray-900">{format(item.startDate)}</p>
+            <p className="text-sm font-medium text-gray-900">{item.startDate ?? '—'}</p>
           </div>
           <div className="space-y-1">
             <p className="text-xs text-gray-500">End date</p>
-            <p className="text-sm font-medium text-gray-900">{format(item.endDate)}</p>
+            <p className="text-sm font-medium text-gray-900">{item.endDate ?? '—'}</p>
           </div>
           <div className="space-y-1">
             <p className="text-xs text-gray-500">Days</p>
             <p className="text-sm font-medium text-gray-900">{item.days ?? '—'}</p>
           </div>
           <div className="space-y-1">
-            <p className="text-xs text-gray-500">Recommended by</p>
+            <p className="text-xs text-gray-500">Doctor</p>
             <p className="text-sm font-medium text-gray-900">{item.recommendedBy || item.doctorName || '—'}</p>
           </div>
           <div className="space-y-1">
@@ -61,12 +52,31 @@ export default function HistoryDetailModal({ open, onClose, item }) {
           </div>
         </div>
 
-        <div className="mt-4">
-          <p className="text-xs text-gray-500 mb-1">Notes</p>
+    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="space-y-1">
+        <p className="text-xs text-gray-500 mb-1">Notes</p>
+        <p className="text-sm text-gray-800 whitespace-pre-wrap">
+          {item.notes?.trim() || 'No additional notes.'}
+        </p>
+      </div>
+      <div className="space-y-1">
+        <p className="text-xs text-gray-500 mb-1">Symptoms</p>
+        {Array.isArray(item.symptomsList) && item.symptomsList.length > 0 ? (
+          <ul className="list-disc pl-5 text-sm text-gray-800 space-y-0.5">
+            {item.symptomsList.map((sym, i) => (
+              <li key={i}>{sym}</li>
+            ))}
+          </ul>
+        ) : (
           <p className="text-sm text-gray-800 whitespace-pre-wrap">
-            {item.notes?.trim() || 'No additional notes.'}
+            {item.symptoms?.trim() || '—'}
           </p>
-        </div>
+        )}
+      </div>
+    </div>
+
+
+
 
         <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3">
           <button
@@ -84,5 +94,7 @@ export default function HistoryDetailModal({ open, onClose, item }) {
         </div>
       </div>
     </div>
+
   );
 }
+
