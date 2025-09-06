@@ -10,7 +10,8 @@ import SymptomReportModal from '../Components/SymptomReportModal';
 import { NormalizeName } from '../Components/NormalizeName';
 import FeedBack from '../Components/FeedBack';
 import Header from '../../layout/Header';
-
+import MedicalHistorySection from '../Components/MedicalHistorySection';
+  
 const PatientData = {
   fullName: 'PriyaSharma',
   email: 'priya@example.com',
@@ -120,15 +121,22 @@ const createDisplayName = () => {
                 {PatientData.lastSessionFeedBackPending && <FeedBack />}
               </div>
             </div>
+            <div className='mt-6 '>
+              <MedicalHistorySection />
+            </div>
+           
+            
           </motion.div>
         </main>
       </div>
+      
       
       <SymptomReportModal 
         isOpen={isFormOpen} 
         setIsOpen={setIsFormOpen} 
         patientData={PatientData} 
       />
+      
     </div>
   );
 };
