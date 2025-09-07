@@ -4,8 +4,8 @@ import LoginPage from "./components/Pages/LoginPage";
 import RegisterPage from "./components/Pages/RegisterPage";
 import AboutPage from "./components/Pages/AboutPage"; 
 import PatientDashboard from "./Patient/Pages/PatientDashboard";
-import ChooseDoctorPage from "./components/Pages/ChooseDocPage";
-import TherapistDashboard from "@/T2/Pages/TherapistDashboard";
+import ChooseDoctorPage from "./components/Pages/ChooseDocPage"
+import Dashboard from "./Therapist/Pages/Dashboard";
 
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
       <Route path="/patient-dashboard" element={<PatientDashboard />} />
       <Route path="/about" element={<AboutPage/>} />
       <Route path="/choose-doctor" element={<ChooseDoctorPage />} />
-      <Route path="/therapist-dashboard" element={<TherapistDashboard />} />
+      <Route path="/therapist-dashboard" element={<Dashboard />} />
     </Routes>
   );
 }
