@@ -6,7 +6,6 @@ import AboutPage from "./components/Pages/AboutPage";
 import PatientDashboard from "./Patient/Pages/PatientDashboard";
 import ChooseDoctorPage from "./components/Pages/ChooseDocPage"
 import Dashboard from "./Therapist/Pages/Dashboard";
-import ChooseDoctorPage from "./components/Pages/ChooseDocPage";
 import DoctorDashboardPage from './Doctor/Pages/DoctorDashboardPage';
 
 
