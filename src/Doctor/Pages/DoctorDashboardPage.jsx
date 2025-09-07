@@ -8,7 +8,7 @@ import PatientDetailView from '../Components/PatientDetailView';
 import PatientHistory from '../Components/PatientHistory';
 import PrescriptionModal from '../Components/PrescriptionModal';
 import HistoryDetailModal from '../Components/HistoryDetailModal';
-import { mockDoctorData } from '../data/MockDoctorData'; 
+import { mockDoctorData } from '../data/mockDoctorData'; 
 
 const DoctorDashboardPage = () => {
     const [doctorData, setDoctorData] = useState(mockDoctorData);
