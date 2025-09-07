@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../Components/Sidebar';
@@ -11,31 +12,7 @@ import { NormalizeName } from '../Components/NormalizeName';
 import FeedBack from '../Components/FeedBack';
 import Header from '../../layout/Header';
 import MedicalHistorySection from '../Components/MedicalHistorySection';
-  
-const PatientData = {
-  fullName: 'PriyaSharma',
-  email: 'priya@example.com',
-  treatmentPlan: { name: '7‑din ki Shodhan Chikitsa', totalDays: 7, currentDay: 3 },
-  todaySession: {
-    therapyName: 'Abhyanga (Full Body Massage)',
-    time: '10:00 AM',
-    therapist: 'Rahul Verma',
-    pre_instructions: 'Therapy se 2 ghante pehle kuch na khayein.',
-    post_instructions: 'Garam paani se snan karein aur halka bhojan lein.'
-  },
-  assignment: {
-    byDoctor: { name: 'Dr. Meera', time: '09:12 AM' },
-    therapistAssigned: { name: 'Rahul Verma', busyLevel: 'Medium' },
-    slotStatus: 'Awaiting Slot',
-    slot: { date: 'Wed, 03 Sep', time: '10:00 AM', room: 'T2' }
-  },
-  upcomingSessions: [
-    { day: 4, therapyName: 'Shirodhara', status: 'Assigned', eta: 'Pending Slot' },
-    { day: 5, therapyName: 'Swedana', status: 'Assigned', eta: 'Pending Slot' },
-    { day: 6, therapyName: 'Virechana Prep', status: 'Draft', eta: 'TBD' }
-  ],
-  lastSessionFeedBackPending: true
-};
+import LoadingPage from '@/components/Pages/LoadingPage';
 
 const containerVariants = { 
   hidden: { opacity: 0 }, 
@@ -49,31 +26,67 @@ const itemVariants = {
 
 const PatientDashboard = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [patientData, setPatientData] = useState(null);
   const navigate = useNavigate();
 
-  // Get user name from localStorage
-  const firstName = localStorage.getItem('userFirstName') || '';
-  const lastName = localStorage.getItem('userLastName') || '';
-  
-const createDisplayName = () => {
-    const capitalize = (str) => str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : '';
-    
-    const first = capitalize(firstName);
-    const last = capitalize(lastName);
-    
-    return [first, last].filter(Boolean).join(' ') || 'User';
+  const [displayName, setDisplayName] = useState('User');
+  const [initials, setInitials] = useState('US');
+
+  const hardcodedData = {
+    treatmentPlan: { name: '7‑din ki Shodhan Chikitsa', totalDays: 7, currentDay: 3 },
+    todaySession: {
+      therapyName: 'Abhyanga (Full Body Massage)',
+      time: '10:00 AM',
+      therapist: 'Rahul Verma',
+      pre_instructions: 'Therapy se 2 ghante pehle kuch na khayein.',
+      post_instructions: 'Garam paani se snan karein aur halka bhojan lein.'
+    },
+    assignment: {
+      byDoctor: { name: 'Dr. Meera', time: '09:12 AM' },
+      therapistAssigned: { name: 'Rahul Verma', busyLevel: 'Medium' },
+      slotStatus: 'Awaiting Slot',
+      slot: { date: 'Wed, 03 Sep', time: '10:00 AM', room: 'T2' }
+    },
+    upcomingSessions: [
+      { day: 4, therapyName: 'Shirodhara', status: 'Assigned', eta: 'Pending Slot' },
+      { day: 5, therapyName: 'Swedana', status: 'Assigned', eta: 'Pending Slot' },
+      { day: 6, therapyName: 'Virechana Prep', status: 'Draft', eta: 'TBD' }
+    ],
+    lastSessionFeedBackPending: true
   };
 
-  const displayName = NormalizeName ? 
-    NormalizeName(createDisplayName()) : 
-    createDisplayName();
+  useEffect(() => {
+    const fetchPatientData = async () => {
+      try {
+        const patientId = 1; // Example ID
+        const response = await axios.get(`https://ayusutra-backend.onrender.com/api/patients/${patientId}`);
+        const data = response.data;
 
-  const initials = displayName
-    .split(' ')
-    .map(n => n.charAt(0))
-    .join('')
-    .slice(0, 2)
-    .toUpperCase();
+        setPatientData(data);
+
+        const fullName = `${data.firstName || ''} ${data.lastName || ''}`.trim();
+        const normalizedName = NormalizeName(fullName) || 'User';
+        setDisplayName(normalizedName);
+
+        const init = normalizedName
+          .split(' ')
+          .map(n => n.charAt(0))
+          .join('')
+          .slice(0, 2)
+          .toUpperCase();
+        setInitials(init);
+
+      } catch (error) {
+        console.error('Failed to fetch patient data:', error);
+      }
+    };
+
+    fetchPatientData();
+  }, []);
+
+  if (!patientData) {
+    return <LoadingPage/>;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50">
@@ -110,33 +123,30 @@ const createDisplayName = () => {
               </div>
             </motion.div>
             
-            <AajKaNirdesh patientData={PatientData} />
-            <ScheduledTherapies patientData={PatientData} />
+            <AajKaNirdesh patientData={{ ...hardcodedData, ...patientData }} />
+            <ScheduledTherapies patientData={{ ...hardcodedData, ...patientData }} />
             
             <div className="grid grid-cols-12 gap-6 mt-6 items-stretch">
               <div className="col-span-12 lg:col-span-6">
-                <ProgressSection patientData={PatientData} />
+                <ProgressSection patientData={{ ...hardcodedData, ...patientData }} />
               </div>
               <div className="col-span-12 lg:col-span-6">
-                {PatientData.lastSessionFeedBackPending && <FeedBack />}
+                {hardcodedData.lastSessionFeedBackPending && <FeedBack />}
               </div>
             </div>
             <div className='mt-6 '>
-              <MedicalHistorySection />
+              <MedicalHistorySection patient={patientData} />
             </div>
-           
             
           </motion.div>
         </main>
       </div>
       
-      
       <SymptomReportModal 
         isOpen={isFormOpen} 
         setIsOpen={setIsFormOpen} 
-        patientData={PatientData} 
+        patientData={{ ...hardcodedData, ...patientData }} 
       />
-      
     </div>
   );
 };
