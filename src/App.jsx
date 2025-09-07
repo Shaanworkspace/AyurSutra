@@ -6,6 +6,7 @@ import AboutPage from "./components/Pages/AboutPage";
 import PatientDashboard from "./Patient/Pages/PatientDashboard";
 import ChooseDoctorPage from "./components/Pages/ChooseDocPage"
 import Dashboard from "./Therapist/Pages/Dashboard";
+import DoctorDashboardPage from './Doctor/Pages/DoctorDashboardPage';
 
 
 function App() {
@@ -18,6 +19,11 @@ function App() {
       <Route path="/about" element={<AboutPage/>} />
       <Route path="/choose-doctor" element={<ChooseDoctorPage />} />
       <Route path="/therapist-dashboard" element={<Dashboard />} />
+      <Route path="/doctor-dashboard" element={<DoctorDashboardPage />} />
+      
+      
+
+
     </Routes>
   );
 }
