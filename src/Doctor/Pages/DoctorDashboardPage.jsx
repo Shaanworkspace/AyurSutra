@@ -9,7 +9,7 @@ import PatientDetailView from "../Components/PatientDetailView";
 import PatientHistory from "../Components/PatientHistory";
 import PrescriptionModal from "../Components/PrescriptionModal";
 import HistoryDetailModal from "../Components/HistoryDetailModal";
-import { LoadingPage } from "@/components/Pages/LoadingPage";
+import LoadingPage from "@/components/Pages/LoadingPage";
 
 const DoctorDashboardPage = () => {
   const [doctorData, setDoctorData] = useState(null);
