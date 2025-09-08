@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Leaf } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const Header = ({ isMenuOpen, setIsMenuOpen }) => {
+const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // ✅ Manage here
+
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
@@ -16,36 +19,22 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
             {/* Logo */}
             <div className="flex items-center space-x-2">
               <Leaf className="w-8 h-8 text-emerald-600" />
-              <span className="text-lg font-bold text-emerald-700">
-                AyurSutra
-              </span>
+              <span className="text-lg font-bold text-emerald-700">AyurSutra</span>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
               {["Features", "Dashboard", "About"].map((item) =>
                 item === "Dashboard" ? (
-                  <Link
-                    key={item}
-                    to="/patient-dashboard"
-                    className="text-gray-700 hover:text-emerald-600 transition-colors"
-                  >
+                  <Link key={item} to="/patient-dashboard" className="text-gray-700 hover:text-emerald-600 transition-colors">
                     {item}
                   </Link>
                 ) : item === "About" ? (
-                  <Link
-                    key={item}
-                    to="/about"
-                    className="text-gray-700 hover:text-emerald-600 transition-colors"
-                  >
+                  <Link key={item} to="/about" className="text-gray-700 hover:text-emerald-600 transition-colors">
                     {item}
                   </Link>
                 ) : (
-                  <a
-                    key={item}
-                    href={`#${item.toLowerCase()}`}
-                    className="text-gray-700 hover:text-emerald-600 transition-colors"
-                  >
+                  <a key={item} href={`#${item.toLowerCase()}`} className="text-gray-700 hover:text-emerald-600 transition-colors">
                     {item}
                   </a>
                 )
@@ -60,51 +49,76 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
               </motion.button>
             </div>
 
-            {/* Mobile Menu Toggle Button */}
+            {/* ✅ Mobile Menu Toggle Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden text-gray-700"
             >
-              {isMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
 
-          {/* Mobile Menu */}
+          {/* ✅ Sidebar for Mobile */}
           <AnimatePresence>
             {isMenuOpen && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="md:hidden mt-4 pt-4 border-t border-white/20"
-              >
-                <div className="flex flex-col space-y-4">
-                  {["Features", "Dashboard", "About"].map((item) =>
-                    item === "Dashboard" ? (
-                      <Link
-                        key={item}
-                        to="/patient-dashboard"
-                        className="text-gray-700 hover:text-emerald-600 transition-colors"
-                      >
-                        {item}
-                      </Link>
-                    ) : (
-                      <a
-                        key={item}
-                        href={`#${item.toLowerCase()}`}
-                        className="text-gray-700 hover:text-emerald-600 transition-colors"
-                      >
-                        {item}
-                      </a>
-                    )
-                  )}
-                </div>
-              </motion.div>
+              <>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.5 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="fixed inset-0 bg-black z-40"
+                  onClick={() => setIsMenuOpen(false)}
+                />
+
+                <motion.div
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "0%" }}
+                  exit={{ x: "-100%" }}
+                  transition={{ type: "tween", duration: 0.3 }}
+                  className="fixed top-0 left-0 w-64 h-full bg-white shadow-lg z-50 p-6"
+                >
+                  <div className="flex items-center justify-between mb-8">
+                    <span className="text-xl font-bold text-emerald-700">AyurSutra</span>
+                    <button onClick={() => setIsMenuOpen(false)} className="text-gray-700">
+                      <X className="w-6 h-6" />
+                    </button>
+                  </div>
+
+                  <div className="flex flex-col space-y-4">
+                    {["Features", "Dashboard", "About"].map((item) =>
+                      item === "Dashboard" ? (
+                        <Link
+                          key={item}
+                          to="/patient-dashboard"
+                          className="text-gray-700 hover:text-emerald-600 transition-colors"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {item}
+                        </Link>
+                      ) : item === "About" ? (
+                        <Link
+                          key={item}
+                          to="/about"
+                          className="text-gray-700 hover:text-emerald-600 transition-colors"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {item}
+                        </Link>
+                      ) : (
+                        <a
+                          key={item}
+                          href={`#${item.toLowerCase()}`}
+                          className="text-gray-700 hover:text-emerald-600 transition-colors"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {item}
+                        </a>
+                      )
+                    )}
+                  </div>
+                </motion.div>
+              </>
             )}
           </AnimatePresence>
         </nav>
