@@ -1,11 +1,10 @@
 import React from 'react';
 import HistoryList from './HistoryList';
 import HistoryDetailModal from './HistoryDetailModal';
-import { mockPatient } from '../Data/patient.mock';
 import { toHistoryItems } from '../utils/historyMapper';
 
 export default function MedicalHistorySection({ patient }) {
-  const source = patient || mockPatient;
+  const source = patient;
   const items = React.useMemo(() => toHistoryItems(source), [source]);
 
   const [selected, setSelected] = React.useState(null);

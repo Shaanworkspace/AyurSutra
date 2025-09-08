@@ -2,7 +2,70 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, PlusCircle, Stethoscope, Pill, HeartPulse, Pencil } from 'lucide-react';
 
-const PrescriptionDetailView = ({ record }) => ( <div className="space-y-4"><div className="p-4 bg-gray-100 rounded-lg"><h4 className="font-semibold text-gray-700 mb-2 text-sm">Patient's Reported Symptoms</h4><p className="text-gray-600 text-sm">{record.symptoms}</p></div><div className="p-4 bg-white rounded-lg border"><div className="flex items-center gap-3 mb-2"><Stethoscope className="w-5 h-5 text-emerald-600"/><h4 className="font-semibold text-gray-800">Diagnosis</h4></div><p className="text-gray-600 pl-8 text-sm">{record.diagnosis}</p></div><div className="p-4 bg-white rounded-lg border"><div className="flex items-center gap-3 mb-2"><Pill className="w-5 h-5 text-emerald-600"/><h4 className="font-semibold text-gray-800">Medication</h4></div><p className="text-gray-600 pl-8 text-sm whitespace-pre-line">{record.prescribedTreatment}</p></div><div className="p-4 bg-white rounded-lg border"><div className="flex items-center gap-3 mb-2"><HeartPulse className="w-5 h-5 text-emerald-600"/><h4 className="font-semibold text-gray-800">Therapy Plan</h4></div><div className="pl-8 text-sm grid grid-cols-2 gap-x-4 gap-y-1"><span className="text-gray-500">Therapy:</span><span className="text-gray-800 font-medium">{record.therapyName}</span><span className="text-gray-500">Duration:</span><span className="text-gray-800 font-medium">{record.noOfDays} Days</span><span className="text-gray-500">Start Date:</span><span className="text-gray-800 font-medium">{record.startDate}</span></div></div>{record.doctorNotes && ( <div className="p-4 bg-white rounded-lg border"><div className="flex items-center gap-3 mb-2"><Pencil className="w-5 h-5 text-emerald-600"/><h4 className="font-semibold text-gray-800">Doctor's Notes</h4></div><p className="text-gray-600 pl-8 text-sm">{record.doctorNotes}</p></div>)}</div> );
+const PrescriptionDetailView = ({ record }) => (
+    <div className="space-y-4">
+        {/* Symptoms */}
+        <div className="p-4 bg-gray-100 rounded-lg">
+            <h4 className="font-semibold text-gray-700 mb-2 text-sm">Patient's Reported Symptoms</h4>
+            <p className="text-gray-600 text-sm">
+                {record.symptoms}
+            </p>
+        </div>
+
+        {/* Diagnosis */}
+        <div className="p-4 bg-white rounded-lg border">
+            <div className="flex items-center gap-3 mb-2">
+                <Stethoscope className="w-5 h-5 text-emerald-600" />
+                <h4 className="font-semibold text-gray-800">Diagnosis</h4>
+            </div>
+            <p className="text-gray-600 pl-8 text-sm">
+                {record.diagnosis}
+            </p>
+        </div>
+
+        {/* Medication */}
+        <div className="p-4 bg-white rounded-lg border">
+            <div className="flex items-center gap-3 mb-2">
+                <Pill className="w-5 h-5 text-emerald-600" />
+                <h4 className="font-semibold text-gray-800">Medication</h4>
+            </div>
+            <p className="text-gray-600 pl-8 text-sm whitespace-pre-line">
+                {record.prescribedTreatment}
+            </p>
+        </div>
+
+        {/* Therapy Plan */}
+        <div className="p-4 bg-white rounded-lg border">
+            <div className="flex items-center gap-3 mb-2">
+                <HeartPulse className="w-5 h-5 text-emerald-600" />
+                <h4 className="font-semibold text-gray-800">Therapy Plan</h4>
+            </div>
+            <div className="pl-8 text-sm grid grid-cols-2 gap-x-4 gap-y-1">
+                <span className="text-gray-500">Therapy:</span>
+                <span className="text-gray-800 font-medium">{record.therapyName}</span>
+
+                <span className="text-gray-500">Duration:</span>
+                <span className="text-gray-800 font-medium">{record.noOfDays} Days</span>
+
+                <span className="text-gray-500">Start Date:</span>
+                <span className="text-gray-800 font-medium">{record.startDate}</span>
+            </div>
+        </div>
+
+        {/* Doctor's Notes (conditionally rendered) */}
+        {record.doctorNotes && (
+            <div className="p-4 bg-white rounded-lg border">
+                <div className="flex items-center gap-3 mb-2">
+                    <Pencil className="w-5 h-5 text-emerald-600" />
+                    <h4 className="font-semibold text-gray-800">Doctor's Notes</h4>
+                </div>
+                <p className="text-gray-600 pl-8 text-sm">
+                    {record.doctorNotes}
+                </p>
+            </div>
+        )}
+    </div>
+);
 
 const HistoryDetailModal = ({ record, onClose, onFollowUp }) => {
     if (!record) return null;
@@ -23,7 +86,7 @@ const HistoryDetailModal = ({ record, onClose, onFollowUp }) => {
                         </div>
                         <div className="mt-6 pt-4 border-t border-gray-200">
                             <button onClick={() => onFollowUp(record)} className="w-full flex justify-center items-center gap-2 bg-emerald-600 text-white font-semibold px-4 py-3 rounded-lg hover:bg-emerald-700 transition-colors text-base">
-                                <PlusCircle className="w-5 h-5"/>
+                                <PlusCircle className="w-5 h-5" />
                                 Start Follow-up Consultation
                             </button>
                         </div>
