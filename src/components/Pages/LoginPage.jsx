@@ -10,7 +10,7 @@ const LoginPage = () => {
   const [selectedProfile, setSelectedProfile] = useState('User');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -23,56 +23,55 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
     setLoading(true);
 
     try {
-      // ✅ which endpoint based on profile
-      let endpoint = "";
-      let userType = "";
+      let endpoint = '';
+      let userType = '';
 
-      if (selectedProfile === "User") {
-        endpoint = "https://ayusutra-backend.onrender.com/api/patients";
-        userType = "user";
-      } else if (selectedProfile === "Doctor") {
-        endpoint = "https://ayusutra-backend.onrender.com/api/doctors";
-        userType = "doctor";
+      if (selectedProfile === 'User') {
+        endpoint = 'https://ayusutra-backend.onrender.com/api/patients/login';
+        userType = 'user';
+      } else if (selectedProfile === 'Doctor') {
+        // assume doctor login endpoint exists similarly
+        endpoint = 'https://ayusutra-backend.onrender.com/api/doctors/login';
+        userType = 'doctor';
       } else {
-        endpoint = "https://ayusutra-backend.onrender.com/api/therapists";
-        userType = "therapist";
+        // assume therapist login endpoint
+        endpoint = 'https://ayusutra-backend.onrender.com/api/therapists/login';
+        userType = 'therapist';
       }
 
-      const res = await fetch(endpoint);
-      if (!res.ok) throw new Error("Failed to fetch " + userType + " data");
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
 
-      const list = await res.json();
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg || 'Login failed');
+      }
 
-      // 🔑 NOTE: API currently has no password field. Adjust when backend adds auth.
-      // For now: treat "1234" as default password for demo.
-      const match = list.find(
-        (u) => u.email.toLowerCase() === email.toLowerCase() && password === "1234"
-      );
+      const userData = await res.json();
 
-      if (match) {
-        // Save session info
-        localStorage.setItem("authToken", "dummy-auth");
-        localStorage.setItem("userType", userType);
-        localStorage.setItem("userId", match.id);
-        localStorage.setItem("userName", match.firstName);
+      // ✅ store returned user info in localStorage
+      localStorage.setItem('authToken', 'dummy-auth'); // replace with JWT if backend provides it
+      localStorage.setItem('userType', userType);
+      localStorage.setItem('userId', userData.id);
+      localStorage.setItem('userName', userData.firstName);
 
-        // Redirect based on profile
-        if (userType === "user") {
-          navigate("/patient-dashboard");
-        } else if (userType === "doctor") {
-          navigate("/doctor-dashboard");
-        } else {
-          navigate("/therapist-dashboard");
-        }
+      // ✅ redirect based on profile
+      if (userType === 'user') {
+        navigate('/patient-dashboard');
+      } else if (userType === 'doctor') {
+        navigate('/doctor-dashboard');
       } else {
-        setError("❌ Invalid email or password. Please retry.");
+        navigate('/therapist-dashboard');
       }
     } catch (err) {
-      setError("Login failed: " + err.message);
+      setError('❌ ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -89,7 +88,6 @@ const LoginPage = () => {
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="max-w-md w-full bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-green-100"
         >
-          {/* Title */}
           <h1 className="text-3xl font-bold text-gray-800 text-center mb-8">
             Login to AyurSutra
           </h1>
@@ -119,9 +117,7 @@ const LoginPage = () => {
           {/* Login Form */}
           <form onSubmit={handleLogin}>
             <div className="mb-6">
-              <label className="block text-gray-600 font-medium mb-2">
-                Email Address
-              </label>
+              <label className="block text-gray-600 font-medium mb-2">Email Address</label>
               <input
                 type="email"
                 value={email}
@@ -133,9 +129,7 @@ const LoginPage = () => {
             </div>
 
             <div className="mb-8">
-              <label className="block text-gray-600 font-medium mb-2">
-                Password
-              </label>
+              <label className="block text-gray-600 font-medium mb-2">Password</label>
               <input
                 type="password"
                 value={password}
@@ -143,7 +137,7 @@ const LoginPage = () => {
                 placeholder="Enter password"
                 className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:border-green-500 transition-colors"
                 required
-                minLength={2}
+                minLength={4}
               />
             </div>
 
@@ -157,7 +151,7 @@ const LoginPage = () => {
               className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-2xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
             >
               <LogIn className="w-5 h-5" />
-              {loading ? "Logging in..." : `Login as ${selectedProfile}`}
+              {loading ? 'Logging in...' : `Login as ${selectedProfile}`}
             </motion.button>
           </form>
         </motion.div>
