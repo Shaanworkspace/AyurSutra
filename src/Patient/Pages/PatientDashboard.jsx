@@ -13,6 +13,7 @@ import FeedBack from '../Components/FeedBack';
 import Header from '../../layout/Header';
 import MedicalHistorySection from '../Components/MedicalHistorySection';
 import { getPatientById } from '../../api/patientApi';
+import { LoadingPage } from '@/components/Pages/LoadingPage';
 
 const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.08 } } };
 const itemVariants = { hidden: { y: 18, opacity: 0 }, visible: { y: 0, opacity: 1 } };
@@ -65,7 +66,7 @@ const PatientDashboard = () => {
         // ⚡ small guard so UI doesn’t crash while data is loading
         return (
             <div className="min-h-screen flex items-center justify-center text-gray-600">
-                Loading your dashboard...
+               <LoadingPage/>
             </div>
         );
     }

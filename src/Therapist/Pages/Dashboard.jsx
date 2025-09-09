@@ -1,16 +1,13 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
 import AvailableSlots from "../Components/AvailableSlots";
 import OngoingTherapies from "../Components/OngoingTherapies";
 import TherapyRequests from "../Components/TherapyRequests";
+import RescheduleOptions from "../Components/RescheduleOptions";
 import LoginPage from "@/components/Pages/LoginPage";
 import { LoadingPage } from "@/components/Pages/LoadingPage";
-import RescheduleOptions from "../Components/RescheduleOptions";
-// import RescheduleOptions from "../Components/RescheduleOptions";
-
-// import LoadingPage from "@/components/Pages/LoadingPage";
-// import LoginPage from "@/components/Pages/LoginPage";
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -18,12 +15,11 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
-    const userType = localStorage.getItem("userType"); 
+    const userType = localStorage.getItem("userType");
     const userId = localStorage.getItem("userId");
 
     if (token && userType === "therapist" && userId) {
@@ -38,14 +34,15 @@ const Dashboard = () => {
             }
           );
           if (!res.ok) throw new Error("Failed to fetch therapist data");
-          const data = await res.json();
 
+          const data = await res.json();
           const normalized = {
             ...data,
-            scheduleSlots: data.scheduleSlots?.map((slot) => ({
-              ...slot, 
-              status: slot.status.toLowerCase(),
-            })) || [],
+            scheduleSlots:
+              data.scheduleSlots?.map((slot) => ({
+                ...slot,
+                status: slot.status?.toLowerCase(),
+              })) || [],
           };
 
           setTherapist(normalized);
@@ -62,18 +59,9 @@ const Dashboard = () => {
     }
   }, []);
 
-  // Not logged in → force LoginPage
-  if (!isAuthenticated) {
-    return <LoginPage />;
-  }
-
-  if (loading) {
-    return (
-      <LoadingPage/>
-    );
-  }
-
-  if (error) {
+  if (!isAuthenticated) return <LoginPage />;
+  if (loading) return <LoadingPage />;
+  if (error)
     return (
       <div className="flex flex-col h-screen justify-center items-center text-red-500 text-lg space-y-3">
         ⚠️ {error}
@@ -85,7 +73,6 @@ const Dashboard = () => {
         </button>
       </div>
     );
-  }
 
   return (
     <div className="flex mt-16 h-screen bg-gray-50">
@@ -93,10 +80,9 @@ const Dashboard = () => {
 
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-
         <main className="flex-1 overflow-y-auto bg-gray-50">
           <div className="p-4 sm:p-6 space-y-8">
-            {/* Welcome */}
+            {/* Banner */}
             <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-6 text-white shadow-sm">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                 <div>
@@ -111,18 +97,20 @@ const Dashboard = () => {
                   </p>
                 </div>
                 <div className="mt-4 md:mt-0 text-right">
-                  <div className="text-3xl font-bold">+{therapist.yearsOfExperience}y</div>
+                  <div className="text-3xl font-bold">
+                    +{therapist.yearsOfExperience}y
+                  </div>
                   <div className="text-green-100 text-sm">Experience</div>
                 </div>
               </div>
             </div>
 
-            {/* Sections */}
+            {/* Dynamic Sections */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <AvailableSlots slots={therapist.scheduleSlots} />
-              <OngoingTherapies />
-              <TherapyRequests />
-              <RescheduleOptions />
+              <OngoingTherapies therapistId={therapist.id} />
+              <TherapyRequests therapistId={therapist.id} />
+              <RescheduleOptions therapistId={therapist.id} />
             </div>
           </div>
         </main>

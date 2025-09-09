@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Leaf } from "lucide-react";
@@ -17,10 +18,12 @@ const Header = () => {
         <nav className="px-4 py-2">
           <div className="flex items-center justify-between">
             {/* Logo */}
+            <Link to="/" >
             <div className="flex items-center space-x-2">
               <Leaf className="w-8 h-8 text-emerald-600" />
               <span className="text-lg font-bold text-emerald-700">AyurSutra</span>
             </div>
+             </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">

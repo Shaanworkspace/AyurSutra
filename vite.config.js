@@ -10,14 +10,11 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),  // ✅ easy @ path
+      "@": fileURLToPath(new URL("./src", import.meta.url)), 
     },
   },
   build: {
-    // 🚀 Bump the threshold so >500kb bundles don't nag you
     chunkSizeWarningLimit: 1000,
-
-    // Optional: split out vendor libs into their own chunk
     rollupOptions: {
       output: {
         manualChunks: {
@@ -25,5 +22,9 @@ export default defineConfig({
         },
       },
     },
+  },
+  server: {
+    // 👇 This is the key line for React Router deep links
+    historyApiFallback: true,
   },
 })

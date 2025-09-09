@@ -8,15 +8,19 @@ import ChooseDoctorPage from "./components/Pages/ChooseDocPage";
 import Dashboard from "./Therapist/Pages/Dashboard";
 import DoctorDashboardPage from "./Doctor/Pages/DoctorDashboardPage";
 import RecordDetailPage from "./Patient/Components/RecordDetailPage";
-
+import DoctorAppointmentPage from "./Patient/Components/DoctorAppointmentPage";
+import MedicalRecordEditPage from "./Doctor/Components/MedicalRecordEditPage"; // ✅
+import PatientRecordDetailPage from "./Patient/Components/PatientRecordDetailPage";
+import PaymentPage from "./Patient/Components/PaymentPage";
 
 function App() {
   return (
     <Routes>
+      {/* Public pages */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/about" element={<AboutPage/>} />
+      <Route path="/about" element={<AboutPage />} />
 
       {/* Dashboards */}
       <Route path="/patient-dashboard" element={<PatientDashboard />} />
@@ -25,9 +29,16 @@ function App() {
 
       {/* Doctor Flow */}
       <Route path="/choose-doctor" element={<ChooseDoctorPage />} />
+      <Route path="/doctor-appointment" element={<DoctorAppointmentPage />} />
 
-      {/* ✅ Medical Records */}
+      {/*  Medical Records */}
       <Route path="/medical-records/:id" element={<RecordDetailPage />} />
+      <Route path="/medical-records/:id/edit" element={<MedicalRecordEditPage />} />
+<Route path="/patient/records/:id" element={<PatientRecordDetailPage />} />
+      {/* Fallback */}
+      <Route path="*" element={<LandingPage />} />
+
+        <Route path="/payment" element={<PaymentPage />} />
     </Routes>
   );
 }

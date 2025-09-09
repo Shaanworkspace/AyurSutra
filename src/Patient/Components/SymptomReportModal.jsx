@@ -27,7 +27,7 @@ const SymptomReportModal = ({ isOpen, setIsOpen, patientData }) => {
     notes: '',
   });
 
-  // ✅ Sync name/email when patientData actually loads
+  //  Sync name/email when patientData actually loads
   React.useEffect(() => {
     if (patientData) {
       setForm((prev) => ({

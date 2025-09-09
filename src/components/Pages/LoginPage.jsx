@@ -6,158 +6,157 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../../layout/Header';
 
 const LoginPage = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [selectedProfile, setSelectedProfile] = useState('User');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [selectedProfile, setSelectedProfile] = useState('User');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const profiles = [
-    { name: 'User', icon: User },
-    { name: 'Doctor', icon: Stethoscope },
-    { name: 'Practitioner', icon: Heart },
-  ];
+    const profiles = [
+        { name: 'User', icon: User },
+        { name: 'Doctor', icon: Stethoscope },
+        { name: 'Practitioner', icon: Heart },
+    ];
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setError('');
+        setLoading(true);
 
-    try {
-      let endpoint = '';
-      let userType = '';
+        try {
+            let endpoint = '';
+            let userType = '';
 
-      if (selectedProfile === 'User') {
-        endpoint = 'https://ayusutra-backend.onrender.com/api/patients/login';
-        userType = 'user';
-      } else if (selectedProfile === 'Doctor') {
-        // assume doctor login endpoint exists similarly
-        endpoint = 'https://ayusutra-backend.onrender.com/api/doctors/login';
-        userType = 'doctor';
-      } else {
-        // assume therapist login endpoint
-        endpoint = 'https://ayusutra-backend.onrender.com/api/therapists/login';
-        userType = 'therapist';
-      }
+            if (selectedProfile === 'User') {
+                endpoint = 'https://ayusutra-backend.onrender.com/api/patients/login';
+                userType = 'user';
+            } else if (selectedProfile === 'Doctor') {
+                // assume doctor login endpoint exists similarly
+                endpoint = 'https://ayusutra-backend.onrender.com/api/doctors/login';
+                userType = 'doctor';
+            } else {
+                // assume therapist login endpoint
+                endpoint = 'https://ayusutra-backend.onrender.com/api/therapists/login';
+                userType = 'therapist';
+            }
 
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+            const res = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
 
-      if (!res.ok) {
-        const msg = await res.text();
-        throw new Error(msg || 'Login failed');
-      }
+            if (!res.ok) {
+                const msg = await res.text();
+                throw new Error(msg || 'Login failed');
+            }
 
-      const userData = await res.json();
+            const userData = await res.json();
 
-      // ✅ store returned user info in localStorage
-      localStorage.setItem('authToken', 'dummy-auth'); // replace with JWT if backend provides it
-      localStorage.setItem('userType', userType);
-      localStorage.setItem('userId', userData.id);
-      localStorage.setItem('userName', userData.firstName);
+            // ✅ store returned user info in localStorage
+            localStorage.setItem('authToken', 'dummy-auth'); // replace with JWT if backend provides it
+            localStorage.setItem('userType', userType);
+            localStorage.setItem('userId', userData.id);
+            localStorage.setItem('userName', userData.firstName);
 
-      // ✅ redirect based on profile
-      if (userType === 'user') {
-        navigate('/patient-dashboard');
-      } else if (userType === 'doctor') {
-        navigate('/doctor-dashboard');
-      } else {
-        navigate('/therapist-dashboard');
-      }
-    } catch (err) {
-      setError('❌ ' + err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+            // ✅ redirect based on profile
+            if (userType === 'user') {
+                navigate('/patient-dashboard');
+            } else if (userType === 'doctor') {
+                navigate('/doctor-dashboard');
+            } else {
+                navigate('/therapist-dashboard');
+            }
+        } catch (err) {
+            setError('❌ ' + err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50">
-      <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50">
+            <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
 
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="max-w-md w-full bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-green-100"
-        >
-          <h1 className="text-3xl font-bold text-gray-800 text-center mb-8">
-            Login to AyurSutra
-          </h1>
-
-          {/* Profile Selection Tabs */}
-          <div className="flex justify-center mb-8">
-            <div className="flex space-x-2 bg-gray-100 rounded-xl p-1">
-              {profiles.map((profile) => (
-                <motion.button
-                  key={profile.name}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setSelectedProfile(profile.name)}
-                  className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${
-                    selectedProfile === profile.name
-                      ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white'
-                      : 'text-gray-600 hover:bg-green-50'
-                  }`}
+            <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    className="max-w-md w-full bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-green-100"
                 >
-                  <profile.icon className="w-5 h-5" />
-                  {profile.name}
-                </motion.button>
-              ))}
-            </div>
-          </div>
+                    <h1 className="text-3xl font-bold text-gray-800 text-center mb-8">
+                        Login to AyurSutra
+                    </h1>
 
-          {/* Login Form */}
-          <form onSubmit={handleLogin}>
-            <div className="mb-6">
-              <label className="block text-gray-600 font-medium mb-2">Email Address</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder={`Enter ${selectedProfile.toLowerCase()} email`}
-                className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:border-green-500 transition-colors"
-                required
-              />
-            </div>
+                    {/* Profile Selection Tabs */}
+                    <div className="flex justify-center mb-8">
+                        <div className="flex space-x-2 bg-gray-100 rounded-xl p-1">
+                            {profiles.map((profile) => (
+                                <motion.button
+                                    key={profile.name}
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={() => setSelectedProfile(profile.name)}
+                                    className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${selectedProfile === profile.name
+                                            ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white'
+                                            : 'text-gray-600 hover:bg-green-50'
+                                        }`}
+                                >
+                                    <profile.icon className="w-5 h-5" />
+                                    {profile.name}
+                                </motion.button>
+                            ))}
+                        </div>
+                    </div>
 
-            <div className="mb-8">
-              <label className="block text-gray-600 font-medium mb-2">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password"
-                className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:border-green-500 transition-colors"
-                required
-                minLength={4}
-              />
-            </div>
+                    {/* Login Form */}
+                    <form onSubmit={handleLogin}>
+                        <div className="mb-6">
+                            <label className="block text-gray-600 font-medium mb-2">Email Address</label>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder={`Enter ${selectedProfile.toLowerCase()} email`}
+                                className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:border-green-500 transition-colors"
+                                required
+                            />
+                        </div>
 
-            {error && <p className="text-red-500 mb-4">{error}</p>}
+                        <div className="mb-8">
+                            <label className="block text-gray-600 font-medium mb-2">Password</label>
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Enter password"
+                                className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:border-green-500 transition-colors"
+                                required
+                                minLength={4}
+                            />
+                        </div>
 
-            <motion.button
-              type="submit"
-              disabled={loading}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-2xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
-            >
-              <LogIn className="w-5 h-5" />
-              {loading ? 'Logging in...' : `Login as ${selectedProfile}`}
-            </motion.button>
-          </form>
-        </motion.div>
-      </section>
-    </div>
-  );
+                        {error && <p className="text-red-500 mb-4">{error}</p>}
+
+                        <motion.button
+                            type="submit"
+                            disabled={loading}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-2xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                        >
+                            <LogIn className="w-5 h-5" />
+                            {loading ? 'Logging in...' : `Login as ${selectedProfile}`}
+                        </motion.button>
+                    </form>
+                </motion.div>
+            </section>
+        </div>
+    );
 };
 
 export default LoginPage;

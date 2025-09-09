@@ -75,11 +75,11 @@ const AajKaNirdesh = ({ patientData }) => {
           <div className="space-y-2 text-sm leading-relaxed">
             <p className="text-green-50">
               <span className="font-semibold text-white">Pre:</span>{" "}
-              {todaySession?.pre_instructions || "No specific pre‑instructions"}
+              {todaySession?.pre_instructions || "Drink water"}
             </p>
             <p className="text-green-50">
               <span className="font-semibold text-white">Post:</span>{" "}
-              {todaySession?.post_instructions || "No specific post‑instructions"}
+              {todaySession?.post_instructions || "DO yoga"}
             </p>
           </div>
         </div>
