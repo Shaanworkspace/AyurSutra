@@ -12,7 +12,6 @@ import { NormalizeName } from '../Components/NormalizeName';
 import FeedBack from '../Components/FeedBack';
 import Header from '../../layout/Header';
 import MedicalHistorySection from '../Components/MedicalHistorySection';
-import LoadingPage from '@/components/Pages/LoadingPage';
 import { getPatientById } from '../../api/patientApi';
 
 const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.08 } } };
@@ -61,9 +60,6 @@ const PatientDashboard = () => {
         fetchPatientData();
     }, [navigate]);
 
-    if (!patientData) {
-        return <LoadingPage />;
-    }
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50">
