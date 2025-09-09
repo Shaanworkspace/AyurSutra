@@ -5,8 +5,8 @@ import AvailableSlots from "../Components/AvailableSlots";
 import OngoingTherapies from "../Components/OngoingTherapies";
 import TherapyRequests from "../Components/TherapyRequests";
 import RescheduleOptions from "../Components/RescheduleOptions";
-import LoginPage from "@/components/Pages/LoginPage";
-import LoadingPage from "@/components/Pages/LoadingPage";
+import LoginPage from "../components/Pages/LoginPage";
+import LoadingPage from "../components/Pages/LoadingPage";
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
