@@ -19,8 +19,9 @@ import {
   MapPin
 } from "lucide-react";
 import Header from "../../layout/Header";
-import LoadingPage from "@/components/Pages/LoadingPage";
+// import LoadingPage from "@/components/Pages/LoadingPage";
 import { getRecordById, updateRecord } from "../../api/medicalRecordApi";
+import { LoadingPage } from "@/components/Pages/LoadingPage";
 
 // Move EditableField outside to prevent re-renders
 const EditableField = ({
