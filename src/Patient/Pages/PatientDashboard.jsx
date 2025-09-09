@@ -28,22 +28,24 @@ const PatientDashboard = () => {
     useEffect(() => {
         const fetchPatientData = async () => {
             try {
-                // Grab logged-in user from localStorage
-                const storedUser = JSON.parse(localStorage.getItem("userData"));
+                // Grab logged-in user info from localStorage
+                const storedUser = JSON.parse(localStorage.getItem('userData'));
                 if (!storedUser?.id) {
-                    console.error("No user found, redirecting to login.");
-                    navigate("/login");
+                    console.error('No user found, redirecting to login.');
+                    navigate('/login');
                     return;
                 }
 
+                // get fresh data from backend (to ensure latest info)
                 const data = await getPatientById(storedUser.id);
                 setPatientData(data);
 
-                // Display info
+                // derive display name
                 const fullName = `${data.firstName || ''} ${data.lastName || ''}`.trim();
                 const normalizedName = NormalizeName(fullName) || 'User';
                 setDisplayName(normalizedName);
 
+                // derive initials
                 const init = normalizedName
                     .split(' ')
                     .map((n) => n.charAt(0))
@@ -51,15 +53,22 @@ const PatientDashboard = () => {
                     .slice(0, 2)
                     .toUpperCase();
                 setInitials(init);
-
             } catch (error) {
-                console.error("Failed to fetch patient data:", error);
+                console.error('Failed to fetch patient data:', error);
             }
         };
 
         fetchPatientData();
     }, [navigate]);
 
+    if (!patientData) {
+        // ⚡ small guard so UI doesn’t crash while data is loading
+        return (
+            <div className="min-h-screen flex items-center justify-center text-gray-600">
+                Loading your dashboard...
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50">
@@ -79,7 +88,10 @@ const PatientDashboard = () => {
                         className="max-w-[1400px] mx-auto"
                     >
                         {/* Greeting + actions */}
-                        <motion.div variants={itemVariants} className="mb-6 flex items-start justify-between gap-6">
+                        <motion.div
+                            variants={itemVariants}
+                            className="mb-6 flex items-start justify-between gap-6"
+                        >
                             <h1 className="text-[28px] lg:text-[36px] font-extrabold tracking-tight text-gray-900">
                                 Namaste, {displayName}!
                             </h1>
@@ -100,7 +112,7 @@ const PatientDashboard = () => {
                             </div>
                         </motion.div>
 
-                        {/* Pass fresh patient data into sections */}
+                        {/* Pass fresh patient data */}
                         <AajKaNirdesh patientData={patientData} />
                         <ScheduledTherapies patientData={patientData} />
 
@@ -109,7 +121,7 @@ const PatientDashboard = () => {
                                 <ProgressSection patientData={patientData} />
                             </div>
                             <div className="col-span-12 lg:col-span-6">
-                                {/* Show feedback component dynamically if needed */}
+                                {/* Show feedback component only if there are medical records */}
                                 {patientData?.medicalRecords?.length > 0 && <FeedBack />}
                             </div>
                         </div>
