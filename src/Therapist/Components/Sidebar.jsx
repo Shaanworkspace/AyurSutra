@@ -25,13 +25,11 @@ const Sidebar = ({ isOpen, onClose }) => {
   ];
 
   const handleLogout = () => {
-    // 🧹 Clear session
     localStorage.clear();
-    // 🚪 Redirect to login
     navigate("/login");
   };
 
-  // 🔥 Fetch therapist profile
+  // Fetch therapist data from API
   useEffect(() => {
     const fetchTherapist = async () => {
       try {
@@ -61,7 +59,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     fetchTherapist();
   }, [navigate]);
 
-  // In case data still loading
+  // In case data is still loading
   if (loading) {
     return (
       <aside className="w-64 bg-white shadow-lg flex items-center justify-center">
@@ -132,10 +130,9 @@ const Sidebar = ({ isOpen, onClose }) => {
                   key={index}
                   className={`
                     w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors duration-200
-                    ${
-                      item.active
-                        ? "bg-green-100 text-green-700 border-r-2 border-green-600"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    ${item.active
+                      ? "bg-green-100 text-green-700 border-r-2 border-green-600"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                     }
                   `}
                 >

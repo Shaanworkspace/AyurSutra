@@ -47,8 +47,6 @@ const LoginPage = () => {
 
       const list = await res.json();
 
-      // 🔑 NOTE: API currently has no password field. Adjust when backend adds auth.
-      // For now: treat "1234" as default password for demo.
       const match = list.find(
         (u) => u.email.toLowerCase() === email.toLowerCase() && password === "1234"
       );
